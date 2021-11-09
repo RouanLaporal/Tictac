@@ -17,9 +17,9 @@ router.post('/justify', auth, function (req, res) {
       return;
     }
     else {
-      // if (!checkUserRate()) {
-      //   return;
-      // }
+      if (!checkUserRate(req)) {
+        return;
+      }
       res.type('text/plain');
       for (i = 0; i < req.body.length; i++) {
         justifyText += req.body[i];
@@ -46,9 +46,9 @@ router.post('/justify', auth, function (req, res) {
   });
 
 
-  function checkUserRate() {
-    var nbwords = req.body.length;
-    var userRateLimit = rateLimit[req.token];
+  function checkUserRate(props) {
+    var nbwords = props.body.length;
+    var userRateLimit = rateLimit[props.token];
     console.log(userRateLimit);
     let userDay = userRateLimit.date.getDate();
     let currentDay = new Date().getDate();
