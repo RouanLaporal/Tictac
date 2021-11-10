@@ -8,7 +8,9 @@ var justifyText = "";
 var tmp = 79;
 var rateLimit = [];
 
-
+router.get('/', function(req, res, next) {
+  res.render('index', { title: 'Express' });
+});
 router.post('/justify', auth, function (req, res) {
   req.token = req.token.slice(7);
   jwt.verify(req.token, 'PRIVATE_KEY', (err) => {
@@ -22,6 +24,10 @@ router.post('/justify', auth, function (req, res) {
   });
 
 
+  /**
+   * this function take the request body text and return the same text but justified
+   * @return [string]
+   */
   function justify() {
     if (!checkUserRate()) {
       return;
@@ -49,6 +55,10 @@ router.post('/justify', auth, function (req, res) {
     res.send(newSpace(justifyText));
     res.status(200);
   }
+  /**
+   * this function check if the user rate doesn't exceed 80000 words and return True  if not and false otherwise
+   * @return [boolean]
+   */
   function checkUserRate() {
     var nbwords = req.body.length;
     var userRateLimit = rateLimit[req.token];
