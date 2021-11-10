@@ -9,10 +9,10 @@ var tmp = 79;
 var rateLimit = [];
 
 router.get('/', function(req, res, next) {
-  res.render('index', { title: 'Express' });
+  res.render('index', { title: 'Justify' });
 });
 router.post('/justify', auth, function (req, res) {
-  req.token = req.token.slice(7);
+  req.token = req.token.slice(7); // Erase the Bearer in the token
   jwt.verify(req.token, 'PRIVATE_KEY', (err) => {
     if (err) {
       res.sendStatus(403);
